@@ -1,0 +1,505 @@
+import {
+  PDFViewer,
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import React from "react";
+import OpenSansMedium from "../assets/OpenSans-Medium.ttf"; // Corrected extension to .ttf
+import OpenSansBold from "../assets/OpenSans-Bold.ttf"; // Corrected extension to .ttf
+
+Font.register({
+  family: "OpenSansMedium",
+  format: "truetype",
+  src: OpenSansMedium,
+});
+
+Font.register({
+  family: "OpenSansBold",
+  format: "truetype",
+  src: OpenSansBold,
+});
+
+let section2ResultRight = [
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+];
+let section4ResultLeft = [
+  "Day",
+  "Pipe1",
+  "Pipe2",
+  "Pipe3",
+  "Pipe4",
+  "Pipe1",
+  "Pipe2",
+  "Pipe3",
+  "Pipe4",
+  "%",
+  "%",
+  "%",
+  "%",
+  "%",
+];
+let section4ResultRight = [
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+  "OK/No",
+];
+let section3ResultRight = ["OK/No", "OK/No", "OK/No"];
+let section3ResultChecklist = ["X", "X", "X"];
+
+// Create styles
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    border: "1px solid #000",
+  },
+  h1: {
+    fontSize: 16,
+    textAlign: "center",
+    textTransform: "uppercase",
+    paddingVertical: 5,
+    fontFamily: "OpenSansBold",
+  },
+  h2: {
+    fontSize: 9,
+    textAlign: "center",
+    textTransform: "uppercase",
+    paddingVertical: 2,
+    fontFamily: "OpenSansBold",
+    borderBottom: "1px solid #000",
+  },
+  flexContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  text: {
+    fontSize: 8,
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  label: {
+    fontSize: 8,
+    borderBottom: "1px solid #000",
+    padding: 2,
+  },
+  label2: {
+    fontSize: 8,
+    padding: 2,
+  },
+  checklist: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 5,
+    marginLeft: 5,
+    marginTop: 3,
+  },
+  checklistBox: {
+    width: 8,
+    height: 8,
+    border: "1px solid #000",
+  },
+  xBox: {
+    width: "8px",
+    height: "8px",
+    border: "1px solid #000",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: "8px",
+    fontWeight: "bold",
+  },
+
+  checklistLabel: {
+    fontSize: 8,
+  },
+  printButton: {
+    backgroundColor: "#007BFF",
+    color: "#FFF",
+    border: "none",
+    borderRadius: 5,
+    cursor: "pointer",
+    marginLeft: 10,
+  },
+});
+
+const MyDocument = ({ data }) => (
+  <Document>
+    <Page size='A4'>
+      <View style={styles.container}>
+        <Text style={{ ...styles.h1, borderBottom: "1px solid #000" }}>
+          Maintenance Visit From Vesda
+        </Text>
+        {/* section 1 */}
+        <View style={styles.row}>
+          <View style={{ flex: 1, borderRight: "1px solid #000" }}>
+            <Text style={styles.label}>Vendor : {data.vendor}</Text>
+            <Text style={styles.label}>Customer : {data.customer}</Text>
+            <Text style={styles.label}>Address : {data.address}</Text>
+            <Text style={styles.label}>Equipment : {data.equipment}</Text>
+            <Text style={styles.label}>Model : {data.model}</Text>
+            <Text style={styles.label}>PIC : {data.pic}</Text>
+          </View>
+          <View style={{ flex: 1, borderBottom: "1px solid #000" }}>
+            <Text style={styles.label}>Date : {data.date}</Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #FFF" }}>
+              Job Description :
+            </Text>
+            
+          </View>
+        </View>
+        {/* section 2 */}
+        <View style={styles.row}>
+          <View
+            style={{
+              flex: 1.5,
+              borderBottom: "1px solid #000",
+            }}>
+            <Text style={styles.h2}>Description Control Panel</Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              1. Main Power Supply
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              2. Output VDC at PSU Termal
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              3. Battery Voltage
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              4. Panel LED TEST
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              LED Indikator Menu
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              5. Function/Working Test Of Button On The Control Panel
+            </Text>
+            <Text style={{ ...styles.label, borderBottom: "0px solid #fff" }}>
+              6. Check LED Indicator ON (Power On) and LCD Display{" "}
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              borderRight: "1px solid #000",
+              borderBottom: "1px solid #000",
+            }}>
+            <Text
+              style={{
+                ...styles.h2,
+                borderLeft: "1px solid #000",
+              }}>
+              Result
+            </Text>
+            <View style={styles.row}>
+              <View style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    ...styles.label,
+                    textAlign: "right",
+                    borderLeft: "1px solid #000",
+                  }}>
+                  VAC
+                </Text>
+                <Text
+                  style={{
+                    ...styles.label,
+                    textAlign: "right",
+                    borderLeft: "1px solid #000",
+                  }}>
+                  VDC
+                </Text>
+                <Text
+                  style={{
+                    ...styles.label,
+                    textAlign: "right",
+                    borderLeft: "1px solid #000",
+                  }}>
+                  VDC
+                </Text>
+              </View>
+              <View style={{ flex: 1 }}>
+                {section2ResultRight.map((e, index) => (
+                  <React.Fragment key={index}>
+                    <Text
+                      style={{
+                        ...styles.label,
+                        borderBottom:
+                          index === section2ResultRight.length - 1
+                            ? "0px solid #FFF"
+                            : "1px solid #000",
+                        borderLeft: "1px solid #000",
+                        textAlign: "center",
+                      }}>
+                      {e}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 1, borderBottom: "1px solid #000" }}>
+            <Text style={styles.h2}>Note</Text>
+          </View>
+        </View>
+        {/* section 3 */}
+        <View style={styles.row}>
+          <View
+            style={{
+              flex: 1.5,
+              borderBottom: "1px solid #000",
+            }}>
+            <Text style={styles.h2}>Description Hardware PIPE</Text>
+            <Text style={styles.label2}>1. Main Power Supply</Text>
+            <Text style={styles.label2}>2. Output VDC at PSU Termal</Text>
+            <Text style={styles.label2}>3. Battery Voltage</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              borderRight: "1px solid #000",
+              borderBottom: "1px solid #000",
+            }}>
+            <Text style={{ ...styles.h2, borderLeft: "1px solid #000" }}>
+              Result
+            </Text>
+            <View style={styles.row}>
+              <View style={{ flex: 0.2, borderRight: "1px solid #000" }}>
+                {section3ResultChecklist.map((e, index) => (
+                  <React.Fragment key={index}>
+                    <Text
+                      style={{
+                        borderBottom:
+                          index === section3ResultChecklist.length - 1
+                            ? "0px solid #FFF"
+                            : "1px solid #000",
+                        borderLeft: "1px solid #000",
+                        padding: 2,
+                        flex: 1,
+                        fontSize: 8,
+                        textAlign: "center",
+                      }}>
+                      {e}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text
+                  style={{
+                    fontSize: 8,
+                    padding: 2,
+                    textAlign: "center",
+                    borderBottom: "1px solid #000",
+                  }}>
+                  Cleaning
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 8,
+                    padding: 2,
+                    textAlign: "center",
+                    borderBottom: "1px solid #000",
+                  }}>
+                  Cleaning
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 8,
+                    padding: 2,
+                    textAlign: "center",
+                  }}>
+                  Cleaning
+                </Text>
+              </View>
+              <View style={{ flex: 0.5 }}>
+                {section3ResultRight.map((e, index) => (
+                  <React.Fragment key={index}>
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        padding: 2,
+                        textAlign: "center",
+                        borderBottom:
+                          index === section3ResultRight.length - 1
+                            ? "0px solid #FFF"
+                            : "1px solid #000",
+                        borderLeft: "1px solid #000",
+                      }}>
+                      {e}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 1, borderBottom: "1px solid #000" }}>
+            <Text style={styles.h2}>Note</Text>
+          </View>
+        </View>
+        {/* section 4 */}
+        <View style={styles.row}>
+          <View
+            style={{
+              flex: 1.5,
+              borderBottom: "1px solid #000",
+            }}>
+            <Text style={styles.h2}>Description Software</Text>
+            <Text style={styles.label2}>1. Filter</Text>
+            <Text style={styles.label2}>2. Raw Flow</Text>
+
+            {/* Add empty space until Pipe 4 */}
+            <View style={{ height: 45 }}></View>
+
+            <Text style={styles.label2}>3. Flow</Text>
+
+            {/* Add empty space until Pipe 4 */}
+            <View style={{ height: 45 }}></View>
+
+            <Text style={styles.label2}>4. Alert</Text>
+            <Text style={styles.label2}>5. Action</Text>
+            <Text style={styles.label2}>6. Fire 1</Text>
+            <Text style={styles.label2}>7. Fire 2</Text>
+            <Text style={styles.label2}>8. Free Alarm</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              borderRight: "1px solid #000",
+            }}>
+            <Text style={{ ...styles.h2, borderLeft: "1px solid #000" }}>
+              Result
+            </Text>
+            <View style={styles.row}>
+              <View style={{ flex: 1 }}>
+                {section4ResultLeft.map((e, index) => (
+                  <React.Fragment key={index}>
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        textAlign: "right",
+                        padding: 2,
+                        borderBottom: "1px solid #000",
+                        borderLeft: "1px solid #000",
+                      }}>
+                      {e}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </View>
+              <View style={{ flex: 1 }}>
+                {section4ResultRight.map((e, index) => (
+                  <React.Fragment key={index}>
+                    <Text
+                      style={{
+                        fontSize: 8,
+                        padding: 2,
+                        textAlign: "center",
+                        borderBottom: "1px solid #000",
+                        borderLeft: "1px solid #000",
+                      }}>
+                      {e}
+                    </Text>
+                  </React.Fragment>
+                ))}
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 1, borderBottom: "1px solid #000" }}>
+            <Text style={styles.h2}>Note</Text>
+          </View>
+        </View>
+        {/* section 5 */}
+        <View style={{ borderBottom: "1px solid #000", height: 50 }}>
+          <Text
+            style={{ fontSize: 8, fontFamily: "OpenSansBold", marginLeft: 2 }}>
+            Note:
+          </Text>
+        </View>
+        {/* section 6 */}
+        <View
+          style={{
+            ...styles.row,
+            borderBottom: "1px solid #000",
+            height: 100,
+          }}>
+          <View style={{ flex: 1, borderRight: "1px solid #000" }}>
+            <Text style={styles.label}>Nama PT :</Text>
+            <Text
+              style={{ fontSize: 8, padding: 2, fontFamily: "OpenSansBold" }}>
+              Technical Signature
+            </Text>
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text
+              style={{ fontSize: 8, padding: 2, fontFamily: "OpenSansBold" }}>
+              Customer Signature
+            </Text>
+          </View>
+        </View>
+        {/* section 7 */}
+        <View style={{ borderBottom: "0px solid", height: 100 }}>
+          <Text style={{ fontSize: 8, padding: 2, fontFamily: "OpenSansBold" }}>
+            Picture
+          </Text>
+        </View>
+      </View>
+    </Page>
+  </Document>
+);
+
+const PDFView = ({ data }) => {
+  console.log("Checking Survey:", data.jobDescription.checkingSurvey);
+  console.log("On Call Service:", data.jobDescription.onCallService);
+  console.log("Service Maintenance:", data.jobDescription.serviceMaintenance);
+  return (
+    <>
+      <div className='btn'>
+        <PDFDownloadLink
+          document={<MyDocument data={data} />}
+          fileName='example.pdf'
+          data={data}>
+          {({ loading, error }) =>
+            loading ? (
+              "Loading document..."
+            ) : error ? (
+              "Error generating PDF"
+            ) : (
+              <button className='btn bg-red-800 text-white ml-2 px-10 rounded-md'>
+                Download PDF
+              </button>
+            )
+          }
+        </PDFDownloadLink>
+      </div>
+    </>
+  );
+};
+
+export default PDFView;

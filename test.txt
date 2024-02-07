@@ -1,0 +1,132 @@
+
+      {/* Technical Signature */}
+      <div
+        style={{
+          border: "1px solid #ccc",
+          padding: "10px",
+          marginBottom: "20px",
+        }}>
+        <label>Technical Signature:</label>
+        <SignatureCanvas
+          ref={technicalSignature}
+          canvasProps={{
+            width: 500,
+            height: 200,
+            className: "signature-canvas",
+          }}
+        />
+        <button onClick={handleTechnicalSignatureSave}>
+          Save Technical Signature
+        </button>
+        <button onClick={handleEraseTechnicalSignature}>Erase</button>
+      </div>
+      {/* Customer Signature */}
+      <div style={{ border: "1px solid #ccc", padding: "10px" }}>
+        <label>Customer Signature:</label>
+        <SignatureCanvas
+          ref={customerSignature}
+          canvasProps={{
+            width: 500,
+            height: 200,
+            className: "signature-canvas",
+          }}
+        />
+        <button onClick={handleCustomerSignatureSave}>
+          Save Customer Signature
+        </button>
+        <button onClick={handleEraseCustomerSignature}>Erase</button>
+      </div>
+
+      
+
+       // section 4
+    // filter: {
+    //   day: "",
+    //   condition: "",
+    // },
+    // rawFlow: {
+    //   pipe1: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe2: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe3: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe4: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    // },
+    // Flow: {
+    //   pipe1: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe2: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe3: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    //   pipe4: {
+    //     value: "",
+    //     condition: "",
+    //   },
+    // },
+    // alert: {
+    //   value: "",
+    //   condition: "",
+    // },
+    // action: {
+    //   value: "",
+    //   condition: "",
+    // },
+    // fire1: {
+    //   value: "",
+    //   condition: "",
+    // },
+    // fire2: {
+    //   value: "",
+    //   condition: "",
+    // },
+    // freeAlarm: {
+    //   value: "",
+    //   condition: "",
+    // },
+    // noteSection4: "",
+    // // section 5
+    // noteSection5: "",
+    // // section 6
+    // namaPt: "",
+
+
+
+    const technicalSignature = useRef(null);
+  const customerSignature = useRef(null);
+
+  const handleTechnicalSignatureSave = () => {
+    const signatureImage = technicalSignature.current.toDataURL();
+    console.log("Technical Signature:", signatureImage);
+    // You can save or use the technical signature image as needed
+  };
+
+  const handleCustomerSignatureSave = () => {
+    const signatureImage = customerSignature.current.toDataURL();
+    console.log("Customer Signature:", signatureImage);
+    // You can save or use the customer signature image as needed
+  };
+
+  const handleEraseTechnicalSignature = () => {
+    technicalSignature.current.clear();
+  };
+
+  const handleEraseCustomerSignature = () => {
+    customerSignature.current.clear();
+  };
